@@ -1,14 +1,10 @@
 (function ($) {
     "use strict";
 
-    var viewGenerators = {
-        generate: function (tplId, viewData) {
-            return $.parseHTML(Mustache.render($("#tpl-" + tplId).html(), viewData));
-        }
-    };
+    var viewData;
 
-    viewGenerators.unitsQuantity = function () {
-        return this.generate("units-quantity", {
+    viewData = {
+        "units-quantity": {
             header: {
                 descr: "Liczebność wojsk"
             },
@@ -23,13 +19,18 @@
                 {descr: "500-999", pl: "setki", en: "zounds"},
                 {descr: "1000+", pl: "legion", en: "legion"}
             ]
-        });
-    };
+        }
+    }
 
     $(document).ready (function() {
-        var $main;
+        $(".tpl-placeholder").each(function () {
+            var $this, tpl, rawContent;
 
-        $main = $("main");
-        $main.append(viewGenerators.unitsQuantity());
+            $this = $(this);
+            tpl = $this.data("tpl");
+
+            rawContent = Mustache.render($("#tpl-" + tpl).html(), viewData[tpl]);
+            $this.replaceWith($.parseHTML(rawContent));
+        });
     });
 }(jQuery));
