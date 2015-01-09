@@ -1,8 +1,9 @@
 (function ($) {
     "use strict";
 
-    var viewData;
+    var templates, viewData;
 
+    templates = {};
     viewData = {
         "units-quantity": {
             header: {
@@ -29,7 +30,11 @@
             $this = $(this);
             tpl = $this.data("tpl");
 
-            rawContent = Mustache.render($("#tpl-" + tpl).html(), viewData[tpl]);
+            if (!templates[tpl]) {
+                templates[tpl] = Hogan.compile($("#tpl-" + tpl).html());
+            }
+
+            rawContent = templates[tpl].render(viewData[tpl]);
             $this.replaceWith($.parseHTML(rawContent));
         });
     });
