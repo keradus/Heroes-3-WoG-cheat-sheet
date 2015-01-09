@@ -1,13 +1,23 @@
 (function ($) {
     "use strict";
 
-    var templates, viewData;
+    var Descr, templates, viewData;
+
+    Descr = function(dict) {
+        this.dict = dict;
+    }
+    Descr.lang = "pl";
+    Descr.prototype = {
+        toString: function () {
+            return this.dict["Descr.lang"] || "";
+        }
+    };
 
     templates = {};
     viewData = {
         "units-quantity": {
             header: {
-                descr: "Liczebność wojsk"
+                descr: new Descr({pl: "Liczebność wojsk"})
             },
             rows: [
                 {descr: "1-4", pl: "mało", en: "few"},
@@ -23,7 +33,7 @@
         }
     }
 
-    $(document).ready (function() {
+    $(document).ready(function() {
         $(".tpl-placeholder").each(function () {
             var $this, tpl, rawContent;
 
